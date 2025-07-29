@@ -55,7 +55,11 @@ namespace DataAccess.Repositories
         /// </summary>
         public void SaveChanges() => _context.SaveChanges();
 
-
+        /// <summary>
+        /// Asynchronously saves changes made to the context to the database.
+        /// </summary>
+        /// <returns></returns>
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using DataAccess.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DataAccess.Interfaces
 {
@@ -12,7 +13,7 @@ namespace DataAccess.Interfaces
         TEntity Delete(TEntity entity);
 
         void SaveChanges();
-
+        Task SaveChangesAsync();
     }
 
 }
