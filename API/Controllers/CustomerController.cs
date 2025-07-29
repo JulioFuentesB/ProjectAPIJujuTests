@@ -26,6 +26,10 @@ namespace API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves all customers.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
@@ -42,6 +46,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a customer by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,6 +72,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new customer.
+        /// </summary>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -85,6 +99,12 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing customer by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -107,6 +127,11 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a customer by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

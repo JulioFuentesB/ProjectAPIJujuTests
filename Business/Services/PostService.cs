@@ -29,12 +29,21 @@ namespace Business.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieves all posts.
+        /// </summary>
+        /// <returns></returns>
         public Task<OperationResult<IEnumerable<PostDto>>> GetAllAsync()
         {
             List<Post> posts = _postRepository.GetAll().ToList();
             return Task.FromResult(OperationResult<IEnumerable<PostDto>>.Ok(_mapper.Map<IEnumerable<PostDto>>(posts)));
         }
 
+        /// <summary>
+        /// Retrieves a post by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationResult<PostDto>> GetByIdAsync(int id)
         {
             var post = await _postRepository.GetByIdAsync(id);
@@ -44,6 +53,11 @@ namespace Business.Services
             return OperationResult<PostDto>.Ok(_mapper.Map<PostDto>(post));
         }
 
+        /// <summary>
+        /// Creates a new post.
+        /// </summary>
+        /// <param name="postDto"></param>
+        /// <returns></returns>
         public async Task<OperationResult<PostDto>> CreateAsync(PostCreateDto postDto)
         {
             try
@@ -69,6 +83,11 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Creates a batch of posts.
+        /// </summary>
+        /// <param name="postDtos"></param>
+        /// <returns></returns>
         public async Task<OperationResult<IEnumerable<PostDto>>> CreateBatchAsync(IEnumerable<PostCreateDto> postDtos)
         {
             try
@@ -124,6 +143,12 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Updates an existing post.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="postDto"></param>
+        /// <returns></returns>
         public async Task<OperationResult<PostDto>> UpdateAsync(int id, PostUpdateDto postDto)
         {
             try
@@ -150,6 +175,11 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a post by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationResult<bool>> DeleteAsync(int id)
         {
             try
@@ -209,6 +239,10 @@ namespace Business.Services
             AssignCategory(postDto);
         }
 
+        /// <summary>
+        /// Processes the body of the post to ensure it meets the length requirements.
+        /// </summary>
+        /// <param name="postDto"></param>
         private void ProcessBody(IPostDto postDto)
         {
             if (!string.IsNullOrEmpty(postDto.Body) && postDto.Body.Length > 20)
@@ -219,6 +253,10 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Assigns a category to the post based on its type.
+        /// </summary>
+        /// <param name="postDto"></param>
         private void AssignCategory(IPostDto postDto)
         {
             switch (postDto.Type)

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Business.Services
 {
-
     public class CustomerService : ICustomerService
     {
         private readonly IPostRepository _postRepository;
@@ -29,6 +28,10 @@ namespace Business.Services
             _customerRepository = customerRepository;
         }
 
+        /// <summary>
+        /// Retrieves all customers.
+        /// </summary>
+        /// <returns></returns>
         public async Task<OperationResult<IEnumerable<CustomerDto>>> GetAllAsync()
         {
             try
@@ -43,6 +46,11 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a customer by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationResult<CustomerDto>> GetByIdAsync(int id)
         {
             try
@@ -62,6 +70,11 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Creates a new customer.
+        /// </summary>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         public async Task<OperationResult<CustomerDto>> CreateAsync(CustomerCreateDto customerDto)
         {
             try
@@ -85,6 +98,12 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        /// Updates an existing customer.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
         public async Task<OperationResult<CustomerDto>> UpdateAsync(int id, CustomerUpdateDto customerDto)
         {
             try
@@ -107,6 +126,11 @@ namespace Business.Services
             }
         }
 
+        /// <summary>
+        ///  Deletes a customer by ID, including associated posts if they exist.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<OperationResult<bool>> DeleteAsync(int id)
         {
             try

@@ -18,17 +18,18 @@ namespace DataAccess.Repositories
             _dbSet = _context.Set<TEntity>();
         }
 
+        /// <summary>
+        /// Retrieves all entities of type TEntity from the database.
+        /// </summary>
         public IQueryable<TEntity> GetAll => _dbSet;
 
-        public TEntity FindById(object id) => _dbSet.Find(id);
-
-        public TEntity Create(TEntity entity)
-        {
-            _dbSet.Add(entity);
-            _context.SaveChanges();
-            return entity;
-        }
-
+        /// <summary>
+        /// Updates an existing entity of type TEntity in the database.
+        /// </summary>
+        /// <param name="editedEntity"></param>
+        /// <param name="originalEntity"></param>
+        /// <param name="changed"></param>
+        /// <returns></returns>
         public TEntity Update(TEntity editedEntity, TEntity originalEntity, out bool changed)
         {
             _context.Entry(originalEntity).CurrentValues.SetValues(editedEntity);
@@ -37,6 +38,11 @@ namespace DataAccess.Repositories
             return originalEntity;
         }
 
+        /// <summary>
+        /// Deletes an entity of type TEntity from the database.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public TEntity Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
@@ -44,11 +50,12 @@ namespace DataAccess.Repositories
             return entity;
         }
 
+        /// <summary>
+        /// Saves changes made to the context to the database.
+        /// </summary>
         public void SaveChanges() => _context.SaveChanges();
 
-        public JujuTestContext GetContext() => _context;
 
-        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 
 }
