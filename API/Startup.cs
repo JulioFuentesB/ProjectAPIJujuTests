@@ -1,6 +1,10 @@
-﻿using Business;
+﻿using AutoMapper;
+using Business.Common.Interfaces.Services;
+using Business.Common.Mappings;
+using Business.Services;
 using DataAccess;
 using DataAccess.Data;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,18 +27,35 @@ namespace ProjectAPI.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Servicios                      
-            services.AddScoped<JujuTestContext, JujuTestContext>();
-            services.AddScoped<BaseService<Customer>, BaseService<Customer>>();
-            services.AddScoped<BaseModel<Customer>, BaseModel<Customer>>();
-            services.AddScoped<BaseService<Post>, BaseService<Post>>();            
-            services.AddScoped<BaseModel<Post>, BaseModel<Post>>();
 
 
             //Agregar cadena de conexion al contexto
             services.AddDbContext<JujuTestContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Development")));
 
+            //Servicios                      
+            services.AddScoped<JujuTestContext, JujuTestContext>();
+            //services.AddScoped<BaseService<Customer>, BaseService<Customer>>();
+            //services.AddScoped<BaseModel<Customer>, BaseModel<Customer>>();
+            //services.AddScoped<BaseService<Post>, BaseService<Post>>();            
+            //services.AddScoped<BaseModel<Post>, BaseModel<Post>>();
+
+
+            services.AddScoped<JujuTestContext, JujuTestContext>();
+
+            services.AddScoped(typeof(IBaseModel<>), typeof(BaseModel<>));
+
+            // Configuración de Repository
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            // Configuración de Servicios
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IPostService, PostService>();
+
+
+
+            // Agrega AutoMapper al contenedor de dependencias
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

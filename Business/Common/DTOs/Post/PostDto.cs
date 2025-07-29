@@ -1,19 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DataAccess.Data
+﻿namespace Business.Common.DTOs.Post
 {
-    public partial class Post
+    public class PostDto
     {
-        [Key]
         public int PostId { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public int Type { get; set; }
         public string Category { get; set; }
         public int CustomerId { get; set; }
-
-
-        // Navigation property
-        public Customer Customer { get; set; }
     }
 }
