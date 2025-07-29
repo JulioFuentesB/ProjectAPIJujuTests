@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BaseService.cs" />
     <Compile Remove="BaseService2.cs" />
   </ItemGroup>
 

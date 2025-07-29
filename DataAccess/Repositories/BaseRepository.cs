@@ -1,33 +1,18 @@
 ﻿using DataAccess.Data;
+using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccess
+namespace DataAccess.Repositories
 {
-    public interface IBaseModel<TEntity> where TEntity : class
-    {
-        IQueryable<TEntity> GetAll { get; }
 
-        TEntity FindById(object id);
-
-        TEntity Create(TEntity entity);
-
-        TEntity Update(TEntity editedEntity, TEntity originalEntity, out bool changed);
-
-        TEntity Delete(TEntity entity);
-
-        void SaveChanges();
-
-        JujuTestContext GetContext(); // opcional, puede omitirse si no quieres exponer el contexto
-    }
-
-    public class BaseModel<TEntity> : IBaseModel<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         protected readonly JujuTestContext _context;
         protected readonly DbSet<TEntity> _dbSet;
 
-        public BaseModel(JujuTestContext context)
+        public BaseRepository(JujuTestContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

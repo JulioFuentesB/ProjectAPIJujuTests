@@ -3,8 +3,8 @@ La compañía Post Ltda. tiene un microservicio con algunas Apis expuestas para un
 el Arquitecto de software de la compañía le ha solicitado solucionar los siguientes problemas y mejorar el código actual de acuerdo 
 con las buenas prácticas de desarrollo del que usted tenga conocimiento
 
-1. El Api de Customer que permite actualizar la entidad no esta funcionando.
-2. La Api que permite crear un Customer debe validar que no haya un usuario con el mismo nombre.
+1. El Api de Customer que permite actualizar la entidad no esta funcionando.?
+2. La Api que permite crear un Customer debe validar que no haya un usuario con el mismo nombre.?
 3. Antes de crear un Post se deben realizar las siguientes validaciones
 	- Que el usuario asociado si exista 
 	- Si el texto del Body es mayor a 20 caracteres se debe cortar el texto a 97 caracteres y finalizar agregar al final "..."

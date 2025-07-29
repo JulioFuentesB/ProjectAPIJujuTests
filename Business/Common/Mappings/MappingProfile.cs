@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Common.DTOs.Customer;
+using Business.Common.DTOs.Post;
 using DataAccess.Data;
 
 namespace Business.Common.Mappings
@@ -9,18 +10,23 @@ namespace Business.Common.Mappings
         public MappingProfile()
         {
             // Mapeo de Customer a CustomerDto
-            CreateMap<Customer, CustomerDto>();
-
-            // Mapeo inverso si es necesario
-            CreateMap<CustomerDto, Customer>();
+            CreateMap<Customer, CustomerDto>().ReverseMap();
 
             // Mapeo para creación
-            CreateMap<CustomerCreateDto, Customer>();
+            CreateMap<CustomerCreateDto, Customer>().ReverseMap();
 
             // Mapeo para actualización
-            CreateMap<CustomerUpdateDto, Customer>();
+            CreateMap<CustomerUpdateDto, Customer>().ReverseMap();
 
             // Agrega aquí otros mapeos que necesites
+
+            CreateMap<Post, PostDto>().ReverseMap();
+
+            // Mapeo para creación
+            CreateMap<PostCreateDto, Post>().ReverseMap();
+
+            // Mapeo para actualización
+            CreateMap<PostUpdateDto, Post>().ReverseMap();
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using DataAccess.Data;
+using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
 
-    public class CustomerRepository : BaseModel<Customer>, ICustomerRepository
+    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
         public CustomerRepository(JujuTestContext context) : base(context)
         {
@@ -19,14 +21,26 @@ namespace DataAccess.Repositories
 
         public async Task<Customer> GetByIdAsync(int id)
         {
-            return await _dbSet.FirstOrDefaultAsync();
+            return await _dbSet.FirstOrDefaultAsync(x => x.CustomerId == id);
         }
 
         public async Task<Customer> GetByIdWithPostsAsync(int id)
         {
-            return await _dbSet
-                .Include(c => c.Posts)
-                .FirstOrDefaultAsync(c => c.CustomerId == id);
+            // Pseudocódigo:
+            // 1. Buscar el cliente por id.
+            // 2. Si existe, obtener sus posts mediante una subconsulta.
+            // 3. Asignar los posts al cliente y devolverlo.
+
+            var customer = await _dbSet.FirstOrDefaultAsync(c => c.CustomerId == id);
+
+            // Si el cliente no existe, retornar null
+            if (customer != null)
+            {
+                customer.Posts = await _context.Set<Post>()
+                    .Where(p => p.CustomerId == id)
+                    .ToListAsync();
+            }
+            return customer;
         }
 
         public async Task<Customer> GetByNameAsync(string name)

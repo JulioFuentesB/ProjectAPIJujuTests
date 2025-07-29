@@ -1,6 +1,6 @@
 ﻿namespace Business.Common.DTOs.Post
 {
-    public class PostUpdateDto
+    public class PostUpdateDto : IPostDto
     {
         public string Title { get; set; }
         public string Body { get; set; }

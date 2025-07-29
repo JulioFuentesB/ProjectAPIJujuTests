@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DataAccess.Repositories
+namespace DataAccess.Interfaces
 {
 
-    /// public interface INpedidoTempRepository : IGenericRepository<NpedidoTemp>
-    public interface ICustomerRepository : IBaseModel<Customer>
+
+    public interface ICustomerRepository : IBaseRepository<Customer>
     {
         Task<IEnumerable<Customer>> GetAllAsync();
         Task<Customer> GetByIdAsync(int id);

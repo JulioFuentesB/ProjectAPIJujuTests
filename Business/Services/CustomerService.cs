@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Business.Results;
 using DataAccess.Data;
-using DataAccess.Repositories;
+using DataAccess.Interfaces;
 using global::Business.Common.DTOs.Customer;
 using global::Business.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;

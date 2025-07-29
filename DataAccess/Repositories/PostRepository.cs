@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,43 +9,36 @@ namespace DataAccess.Repositories
 {
 
 
-    public class PostRepository : BaseModel<Post>, IPostRepository
+    public class PostRepository : BaseRepository<Post>, IPostRepository
     {
         public PostRepository(JujuTestContext context) : base(context)
         {
         }
 
-        public new IQueryable<Post> GetAll() => base.GetAll.Include(p => p.Customer);
+        public new IQueryable<Post> GetAll()
+        {
+            // Devuelve los posts sin incluir el Customer (consulta simple)
+            return base.GetAll;
+        }
 
         public async Task<Post> GetByIdAsync(int id)
         {
-            return await _dbSet.FirstOrDefaultAsync(p => p.PostId == id);
+            // Obtiene el post sin incluir el Customer
+            var post = await _dbSet.FirstOrDefaultAsync(p => p.PostId == id);
+            if (post != null)
+            {
+                // Realiza una segunda consulta para obtener el Customer
+                post.Customer = await _context.Customer.FirstOrDefaultAsync(c => c.CustomerId == post.CustomerId);
+            }
+            return post;
         }
 
-        // Los métodos Create, Update, Remove ya están heredados de BaseModel
-        // y cumplen con la interfaz IPostRepository
-
-        public void RemoveRange(IEnumerable<Post> entities)
-        {
-            _dbSet.RemoveRange(entities);
-            SaveChanges();
-        }
-
-        public IQueryable<Post> GetByCustomerId(int customerId) =>
-            GetAll().Where(p => p.CustomerId == customerId);
 
         void IPostRepository.Create(Post entity)
         {
             _dbSet.Add(entity);
             SaveChanges();
         }
-
-        public void AddRange(IEnumerable<Post> entities)
-        {
-            _dbSet.AddRange(entities);
-            SaveChanges();
-        }
-
 
         public async Task UpdateAsync(Post entity)
         {

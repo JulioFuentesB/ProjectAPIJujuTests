@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\CustomerController.cs" />
-    <Compile Remove="Controllers\PostController.cs" />
+    <Compile Remove="Controllers\CustomerOrController.cs" />
+    <Compile Remove="Controllers\PostOrController.cs" />
   </ItemGroup>
 
   <ItemGroup>

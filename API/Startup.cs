@@ -2,8 +2,8 @@
 using Business.Common.Interfaces.Services;
 using Business.Common.Mappings;
 using Business.Services;
-using DataAccess;
 using DataAccess.Data;
+using DataAccess.Interfaces;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +43,7 @@ namespace ProjectAPI.API
 
             services.AddScoped<JujuTestContext, JujuTestContext>();
 
-            services.AddScoped(typeof(IBaseModel<>), typeof(BaseModel<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             // Configuración de Repository
             services.AddScoped<IPostRepository, PostRepository>();

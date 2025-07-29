@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Business.Results;
 using DataAccess.Data;
-using DataAccess.Repositories;
+using DataAccess.Interfaces;
 using global::Business.Common.DTOs.Post;
 using global::Business.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -31,9 +31,8 @@ namespace Business.Services
 
         public Task<OperationResult<IEnumerable<PostDto>>> GetAllAsync()
         {
-            var posts = _postRepository.GetAll();
-            return Task.FromResult(OperationResult<IEnumerable<PostDto>>.Ok(
-                _mapper.Map<IEnumerable<PostDto>>(posts)));
+            List<Post> posts = _postRepository.GetAll().ToList();
+            return Task.FromResult(OperationResult<IEnumerable<PostDto>>.Ok(_mapper.Map<IEnumerable<PostDto>>(posts)));
         }
 
         public async Task<OperationResult<PostDto>> GetByIdAsync(int id)
@@ -55,31 +54,9 @@ namespace Business.Services
                     return OperationResult<PostDto>.NotFound($"Customer with ID {postDto.CustomerId} not found.");
                 }
 
-                // Procesar Body según requerimiento
-                if (!string.IsNullOrEmpty(postDto.Body) && postDto.Body.Length > 20)
-                {
-                    postDto.Body = postDto.Body.Length > 97
-                        ? postDto.Body.Substring(0, 97) + "..."
-                        : postDto.Body;
-                }
-
-                // Asignar Category según Type
-                switch (postDto.Type)
-                {
-                    case 1:
-                        postDto.Category = "Farándula";
-                        break;
-                    case 2:
-                        postDto.Category = "Política";
-                        break;
-                    case 3:
-                        postDto.Category = "Fútbol";
-                        break;
-                    default:
-                        // Si ya tiene un valor asignado, no lo cambiamos
-                        postDto.Category = postDto.Category;
-                        break;
-                }
+                //ProcessBodyAndCategory(postDto);
+                //AssignCategory(postDto);
+                ProcessBodyAndCategory(postDto);
 
                 var post = _mapper.Map<Post>(postDto);
                 _postRepository.Create(post);
@@ -115,31 +92,9 @@ namespace Business.Services
                         continue;
                     }
 
-                    // Procesar Body según requerimiento
-                    if (!string.IsNullOrEmpty(postDto.Body) && postDto.Body.Length > 20)
-                    {
-                        postDto.Body = postDto.Body.Length > 97
-                            ? postDto.Body.Substring(0, 97) + "..."
-                            : postDto.Body;
-                    }
-
-                    // Asignar Category según Type
-                    switch (postDto.Type)
-                    {
-                        case 1:
-                            postDto.Category = "Farándula";
-                            break;
-                        case 2:
-                            postDto.Category = "Política";
-                            break;
-                        case 3:
-                            postDto.Category = "Fútbol";
-                            break;
-                        default:
-                            // Si ya tiene un valor asignado, no lo cambiamos
-                            postDto.Category = postDto.Category;
-                            break;
-                    }
+                    //ProcessBodyAndCategory(postDto);
+                    //AssignCategory(postDto);
+                    ProcessBodyAndCategory(postDto);
 
                     // Mapear a entidad
                     var post = _mapper.Map<Post>(postDto);
@@ -179,6 +134,11 @@ namespace Business.Services
                     return OperationResult<PostDto>.NotFound($"Post with ID {id} not found.");
                 }
 
+                //ProcessBodyAndCategory(postDto);
+                //AssignCategory(postDto);
+
+                ProcessBodyAndCategory(postDto);
+
                 _mapper.Map(postDto, originalPost);
                 await _postRepository.UpdateAsync(originalPost);
 
@@ -209,6 +169,75 @@ namespace Business.Services
             }
         }
 
+        //// Método reutilizable para procesar Body y Category
+        //private void ProcessBodyAndCategory(dynamic postDto)
+        //{
+        //    // Procesar Body según requerimiento
+        //    if (!string.IsNullOrEmpty(postDto.Body) && postDto.Body.Length > 20)
+        //    {
+        //        postDto.Body = postDto.Body.Length > 97
+        //            ? postDto.Body.Substring(0, 97) + "..."
+        //            : postDto.Body;
+        //    }
+
+        //}
+
+        //// Método para asignar Category según Type
+        //private void AssignCategory(dynamic postDto)
+        //{
+        //    switch (postDto.Type)
+        //    {
+        //        case 1:
+        //            postDto.Category = "Farándula";
+        //            break;
+        //        case 2:
+        //            postDto.Category = "Política";
+        //            break;
+        //        case 3:
+        //            postDto.Category = "Fútbol";
+        //            break;
+        //        default:
+        //            // Si ya tiene un valor asignado, no lo cambiamos
+        //            postDto.Category = postDto.Category;
+        //            break;
+        //    }
+        //}
+
+        private void ProcessBodyAndCategory(IPostDto postDto)
+        {
+            ProcessBody(postDto);
+            AssignCategory(postDto);
+        }
+
+        private void ProcessBody(IPostDto postDto)
+        {
+            if (!string.IsNullOrEmpty(postDto.Body) && postDto.Body.Length > 20)
+            {
+                postDto.Body = postDto.Body.Length > 97
+                    ? postDto.Body.Substring(0, 97) + "..."
+                    : postDto.Body;
+            }
+        }
+
+        private void AssignCategory(IPostDto postDto)
+        {
+            switch (postDto.Type)
+            {
+                case 1:
+                    postDto.Category = "Farándula";
+                    break;
+                case 2:
+                    postDto.Category = "Política";
+                    break;
+                case 3:
+                    postDto.Category = "Fútbol";
+                    break;
+                default:
+                    // Si ya tiene un valor asignado, no lo cambiamos
+                    postDto.Category = postDto.Category;
+                    break;
+            }
+        }
 
     }
 

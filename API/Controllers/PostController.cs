@@ -1,43 +1,156 @@
-﻿using Business;
+﻿using Business.Common.DTOs.Post;
+using Business.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using PostEntity = DataAccess.Data.Post;
-
-namespace API.Controllers.Post
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+namespace API.Controllers
 {
-    [Route("[controller]")]
+
+
+
+
+    [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class PostController : ControllerBase
     {
-        private BaseService<PostEntity> PostService;
-        public PostController(BaseService<PostEntity> postService)
+        private readonly IPostService _postService;
+        private readonly ILogger<PostController> _logger;
+
+        public PostController(
+            IPostService postService,
+            ILogger<PostController> logger)
         {
-            PostService = postService;
+            _postService = postService;
+            _logger = logger;
         }
 
-        [HttpGet()]
-        public IQueryable<PostEntity> GetAll()
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
         {
-            return PostService.GetAll();
+            try
+            {
+                var result = await _postService.GetAllAsync();
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all posts");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpPost()]
-        public PostEntity Create([FromBodyAttribute]  PostEntity entity)
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
         {
-            return PostService.Create(entity);
+            try
+            {
+                var result = await _postService.GetByIdAsync(id);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving post with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpPut()]
-        public PostEntity Update([FromBodyAttribute] PostEntity entity)
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Create([FromBody] PostCreateDto postDto)
         {
-            return PostService.Create(entity);
+            try
+            {
+                var result = await _postService.CreateAsync(postDto);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return CreatedAtAction(nameof(GetById), new { id = result.Data.PostId }, result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating post");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpDelete()]
-        public PostEntity Delete([FromBodyAttribute] PostEntity entity)
+        [HttpPost("batch")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateBatch([FromBody] IEnumerable<PostCreateDto> postDtos)
         {
-            return PostService.Create(entity);
+            try
+            {
+                var result = await _postService.CreateBatchAsync(postDtos);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return CreatedAtAction(nameof(GetAll), result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating posts in batch");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(int id, [FromBody] PostUpdateDto postDto)
+        {
+            try
+            {
+                var result = await _postService.UpdateAsync(id, postDto);
 
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating post with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await _postService.DeleteAsync(id);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error deleting post with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
+
 }
+

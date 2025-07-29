@@ -1,50 +1,131 @@
-﻿using Business;
+﻿using Business.Common.DTOs.Customer;
+using Business.Common.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
-using CustomerEntity = DataAccess.Data.Customer;
+using System.Threading.Tasks;
 
-namespace API.Controllers.Customer
+namespace API.Controllers
 {
-    [Route("[controller]")]
+
+    [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class CustomerController : ControllerBase
     {
-        private BaseService<CustomerEntity> CustomerService;
-        public CustomerController(BaseService<CustomerEntity> customerService)
+        private readonly ICustomerService _customerService;
+        private readonly ILogger<CustomerController> _logger;
+
+        public CustomerController(
+            ICustomerService customerService,
+            ILogger<CustomerController> logger)
         {
-            CustomerService = customerService;
+            _customerService = customerService;
+            _logger = logger;
         }
 
-
-        [HttpGet()]
-        public IQueryable<CustomerEntity> GetAll()
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
         {
-            return CustomerService.GetAll();
+            try
+            {
+                var result = await _customerService.GetAllAsync();
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving all customers");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-
-        [HttpPost()]
-        public CustomerEntity Create([FromBodyAttribute] CustomerEntity entity)
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
         {
-            return CreateCustomer(entity);
+            try
+            {
+                var result = await _customerService.GetByIdAsync(id);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving customer with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        private CustomerEntity CreateCustomer(CustomerEntity entity)
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Create([FromBody] CustomerCreateDto customerDto)
         {
-           // throw new Exception("");
-            return CustomerService.Create(entity);
+            try
+            {
+                var result = await _customerService.CreateAsync(customerDto);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return CreatedAtAction(nameof(GetById), new { id = result.Data.CustomerId }, result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating customer");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpPut()]
-        public CustomerEntity Update(CustomerEntity entity)
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(int id, [FromBody] CustomerUpdateDto customerDto)
         {
-            return CustomerService.Update(entity.CustomerId, entity, out bool changed);
+            try
+            {
+                var result = await _customerService.UpdateAsync(id, customerDto);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating customer with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpDelete()]
-        public CustomerEntity Delete([FromBodyAttribute] CustomerEntity entity)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
-            return CustomerService.Delete(entity);
+            try
+            {
+                var result = await _customerService.DeleteAsync(id);
+
+                if (!result.Success)
+                    return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error deleting customer with ID {id}");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
+
 }
