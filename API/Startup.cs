@@ -40,11 +40,9 @@ namespace ProjectAPI.API
             //services.AddScoped<BaseService<Post>, BaseService<Post>>();            
             //services.AddScoped<BaseModel<Post>, BaseModel<Post>>();
 
-
             services.AddScoped<JujuTestContext, JujuTestContext>();
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-
             // Configuración de Repository
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -52,11 +50,8 @@ namespace ProjectAPI.API
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IPostService, PostService>();
 
-
-
             // Agrega AutoMapper al contenedor de dependencias
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 

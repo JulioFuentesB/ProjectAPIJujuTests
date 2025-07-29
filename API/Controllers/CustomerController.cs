@@ -1,9 +1,11 @@
 ﻿using Business.Common.DTOs.Customer;
 using Business.Common.Interfaces.Services;
+using Business.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -17,9 +19,8 @@ namespace API.Controllers
         private readonly ICustomerService _customerService;
         private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(
-            ICustomerService customerService,
-            ILogger<CustomerController> logger)
+        public CustomerController(ICustomerService customerService,
+                                  ILogger<CustomerController> logger)
         {
             _customerService = customerService;
             _logger = logger;
@@ -31,7 +32,7 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _customerService.GetAllAsync();
+                OperationResult<IEnumerable<CustomerDto>> result = await _customerService.GetAllAsync();
                 return Ok(result.Data);
             }
             catch (Exception ex)
@@ -48,7 +49,7 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _customerService.GetByIdAsync(id);
+                OperationResult<CustomerDto> result = await _customerService.GetByIdAsync(id);
 
                 if (!result.Success)
                     return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
@@ -70,7 +71,7 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _customerService.CreateAsync(customerDto);
+                OperationResult<CustomerDto> result = await _customerService.CreateAsync(customerDto);
 
                 if (!result.Success)
                     return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
@@ -92,7 +93,7 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _customerService.UpdateAsync(id, customerDto);
+                OperationResult<CustomerDto> result = await _customerService.UpdateAsync(id, customerDto);
 
                 if (!result.Success)
                     return StatusCode(result.StatusCode, new { message = result.ErrorMessage });
@@ -113,7 +114,7 @@ namespace API.Controllers
         {
             try
             {
-                var result = await _customerService.DeleteAsync(id);
+                OperationResult<bool> result = await _customerService.DeleteAsync(id);
 
                 if (!result.Success)
                     return StatusCode(result.StatusCode, new { message = result.ErrorMessage });

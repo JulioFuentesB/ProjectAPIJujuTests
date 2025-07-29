@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Business.Common.Interfaces.Services;
 using Business.Results;
 using DataAccess.Data;
 using DataAccess.Interfaces;
 using global::Business.Common.DTOs.Customer;
-using global::Business.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Business.Services
 {
-
 
     public class CustomerService : ICustomerService
     {
