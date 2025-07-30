@@ -18,7 +18,7 @@ Estilo Arquitectónico
 Diagrama de Capas
 
 
-<img width="637" height="508" alt="image" src="https://github.com/user-attachments/assets/4846556f-8506-4983-aa7c-fcaf95ddc14d" />
+<img width="500" height="399" alt="image" src="https://github.com/user-attachments/assets/4846556f-8506-4983-aa7c-fcaf95ddc14d" />
 
 
 
@@ -63,12 +63,12 @@ Diagrama de Capas
 
 ## Estructura del Proyecto
 
-<img width="714" height="850" alt="image" src="https://github.com/user-attachments/assets/79cc2850-7beb-4918-86d1-3394e38d1bf2" />
+<img width="500" height="595" alt="image" src="https://github.com/user-attachments/assets/79cc2850-7beb-4918-86d1-3394e38d1bf2" />
 
 
 ## Diagrama de Base de Datos
 
-<img width="921" height="398" alt="image" src="https://github.com/user-attachments/assets/17d220a8-5723-4042-8760-0feded23499f" />
+<img width="700" height="302" alt="image" src="https://github.com/user-attachments/assets/17d220a8-5723-4042-8760-0feded23499f" />
 
 
 
