@@ -6,6 +6,7 @@
     <RootNamespace>API</RootNamespace>
     <StartupObject></StartupObject>
     <UserSecretsId>c32a8c8b-1848-44ef-b33a-4864c23fccfe</UserSecretsId>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +19,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\CustomerOrController.cs" />
     <Compile Remove="Controllers\PostOrController.cs" />
-    <Compile Remove="Controllers\v1\CustomerOrController.cs" />
-    <Compile Remove="Controllers\v1\PostOrController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +43,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\v1\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

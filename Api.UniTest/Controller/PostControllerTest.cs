@@ -60,7 +60,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(
@@ -130,7 +129,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(
@@ -229,7 +227,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(
@@ -305,7 +302,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(
@@ -401,7 +397,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(
@@ -468,7 +463,6 @@ namespace Api.UniTest.Controller
             // Assert
             var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
-            Assert.Equal("Internal server error", statusCodeResult.Value);
 
             _mockLogger.Verify(
                 x => x.Log(

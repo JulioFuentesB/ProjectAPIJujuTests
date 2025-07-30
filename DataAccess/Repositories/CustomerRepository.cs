@@ -116,13 +116,5 @@ namespace DataAccess.Repositories
             await SaveChangesAsync();
         }
 
-        /// <summary>
-        ///  Saves changes to the database asynchronously.
-        /// </summary>
-        /// <returns></returns>
-        public new async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

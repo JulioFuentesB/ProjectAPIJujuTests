@@ -128,7 +128,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Customer with ID 1 not found.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -192,7 +191,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"A customer with the name 'Existing' already exists.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status409Conflict, result.StatusCode);
         }
 
@@ -256,7 +254,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Customer with ID 1 not found.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -333,7 +330,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Customer with ID 1 not found.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 

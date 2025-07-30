@@ -43,12 +43,25 @@ namespace DataAccess.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public TEntity Delete(TEntity entity)
+        public TEntity Remove(TEntity entity)
         {
             _dbSet.Remove(entity);
             _context.SaveChanges();
             return entity;
         }
+
+        /// <summary>
+        /// Adds a new entity to the database.
+        /// </summary>
+        /// <param name="entity">The entity to add</param>
+        /// <returns>The added entity</returns>
+        public TEntity Create(TEntity entity)
+        {
+            _dbSet.Add(entity);
+            _context.SaveChanges();
+            return entity;
+        }
+
 
         /// <summary>
         /// Saves changes made to the context to the database.

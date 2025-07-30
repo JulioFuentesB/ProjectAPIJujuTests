@@ -2,7 +2,6 @@
 using DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
@@ -12,16 +11,6 @@ namespace DataAccess.Repositories
     {
         public PostRepository(JujuTestContext context) : base(context)
         {
-        }
-
-        /// <summary>
-        /// Retrieves all posts from the database without including the Customer entity.
-        /// </summary>
-        /// <returns></returns>
-        public new IQueryable<Post> GetAll()
-        {
-            // Devuelve los posts sin incluir el Customer (consulta simple)
-            return base.GetAll;
         }
 
         /// <summary>
@@ -42,16 +31,6 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
-        /// Creates a new post in the database.
-        /// </summary>
-        /// <param name="entity"></param>
-        void IPostRepository.Create(Post entity)
-        {
-            _dbSet.Add(entity);
-            SaveChanges();
-        }
-
-        /// <summary>
         /// Updates an existing post in the database.
         /// </summary>
         /// <param name="entity"></param>
@@ -63,15 +42,6 @@ namespace DataAccess.Repositories
             {
                 Update(entity, original, out _);
             }
-        }
-
-        /// <summary>
-        /// Deletes a post from the database.
-        /// </summary>
-        /// <param name="entity"></param>
-        public void Remove(Post entity)
-        {
-            Delete(entity); // Utilizamos el método Delete heredado de BaseModel
         }
 
         /// <summary>

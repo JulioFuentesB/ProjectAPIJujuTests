@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Retrieves all posts.
+        /// Recupera todas las publicaciones.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -42,12 +42,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all posts");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Retrieves a post by ID.
+        /// Recupera una publicación por Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -68,12 +68,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error retrieving post with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Creates a new post.
+        /// Crea una nueva publicación.
         /// </summary>
         /// <param name="postDto"></param>
         /// <returns></returns>
@@ -95,12 +95,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating post");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Creates a batch of posts.
+        /// Crea un lote de publicaciones.
         /// </summary>
         /// <param name="postDtos"></param>
         /// <returns></returns>
@@ -121,12 +121,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating posts in batch");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Updates an existing post.
+        /// Actualiza una publicación existente.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="postDto"></param>
@@ -149,12 +149,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error updating post with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Deletes a post by ID.
+        /// Actualiza una publicación existente.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -175,7 +175,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error deleting post with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }

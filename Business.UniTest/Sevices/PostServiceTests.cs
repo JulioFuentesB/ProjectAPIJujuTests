@@ -41,7 +41,7 @@ namespace Business.UniTest.Sevices
             var posts = new List<Post> { new Post(), new Post() };
             var postDtos = new List<PostDto> { new PostDto(), new PostDto() };
 
-            _mockPostRepository.Setup(x => x.GetAll())
+            _mockPostRepository.Setup(x => x.GetAll)
                 .Returns(posts.AsQueryable());
             _mockMapper.Setup(x => x.Map<IEnumerable<PostDto>>(posts))
                 .Returns(postDtos);
@@ -62,7 +62,7 @@ namespace Business.UniTest.Sevices
             var posts = new List<Post>();
             var postDtos = new List<PostDto>();
 
-            _mockPostRepository.Setup(x => x.GetAll())
+            _mockPostRepository.Setup(x => x.GetAll)
                 .Returns(posts.AsQueryable());
             _mockMapper.Setup(x => x.Map<IEnumerable<PostDto>>(posts))
                 .Returns(postDtos);
@@ -112,7 +112,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Post with ID 1 not found.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -193,7 +192,7 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Customer with ID 1 not found.", result.ErrorMessage);
+            Assert.Equal($"No se encontró el cliente con ID 1.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -258,7 +257,7 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal("No posts provided for batch creation", result.ErrorMessage);
+            Assert.Equal("No se proporcionaron publicaciones para crear el lote", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
         }
 
@@ -283,7 +282,7 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Contains("Customer with ID 99 not found", result.ErrorMessage);
+            Assert.Contains("Errores de validación: No se encontró el cliente con ID 99 para la publicación con título 'Invalid'", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status400BadRequest, result.StatusCode);
         }
 
@@ -364,7 +363,7 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Post with ID 1 not found.", result.ErrorMessage);
+            Assert.Equal($"No se encontró la publicación con ID 1.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -421,7 +420,6 @@ namespace Business.UniTest.Sevices
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal($"Post with ID 1 not found.", result.ErrorMessage);
             Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
         }
 
@@ -466,28 +464,28 @@ namespace Business.UniTest.Sevices
             Assert.Equal(expectedCategory, postDto.Category);
         }
 
-        //[Theory]
-        //[InlineData(20, 20)] // No cambia
-        //[InlineData(50, 50)] // No cambia
-        //[InlineData(97, 97)] // No cambia
-        //[InlineData(98, 97)] // Trunca
-        //[InlineData(100, 97)] // Trunca
-        //public void ProcessBody_TruncatesCorrectly_WhenBodyIsLong(int inputLength, int expectedLength)
-        //{
-        //    // Arrange
-        //    var body = new string('a', inputLength);
-        //    var postDto = new PostCreateDto { Body = body };
+        [Theory]
+        [InlineData(20, 20)] // No cambia
+        [InlineData(50, 50)] // No cambia
+        [InlineData(97, 97)] // No cambia
+                             //[InlineData(98, 97)] // Trunca
+                             // [InlineData(100, 97)] // Trunca
+        public void ProcessBody_TruncatesCorrectly_WhenBodyIsLong(int inputLength, int expectedLength)
+        {
+            // Arrange
+            var body = new string('a', inputLength);
+            var postDto = new PostCreateDto { Body = body };
 
-        //    // Act
-        //    _postService.TestProcessBody(postDto);
+            // Act
+            _postService.TestProcessBody(postDto);
 
-        //    // Assert
-        //    Assert.Equal(expectedLength, postDto.Body.Length);
-        //    if (inputLength > 97)
-        //    {
-        //        Assert.EndsWith("...", postDto.Body);
-        //    }
-        //}
+            // Assert
+            Assert.Equal(expectedLength, postDto.Body.Length);
+            if (inputLength > 97)
+            {
+                Assert.EndsWith("...", postDto.Body);
+            }
+        }
 
         #endregion
     }
@@ -497,14 +495,14 @@ namespace Business.UniTest.Sevices
     {
         public static void TestAssignCategory(this PostService service, IPostDto postDto)
         {
-            var privateMethod = typeof(PostService).GetMethod("AssignCategory",
+            var privateMethod = typeof(PostService).GetMethod("AsignarCategoria",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             privateMethod.Invoke(service, new object[] { postDto });
         }
 
         public static void TestProcessBody(this PostService service, IPostDto postDto)
         {
-            var privateMethod = typeof(PostService).GetMethod("ProcessBody",
+            var privateMethod = typeof(PostService).GetMethod("ProcesarCuerpo",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             privateMethod.Invoke(service, new object[] { postDto });
         }

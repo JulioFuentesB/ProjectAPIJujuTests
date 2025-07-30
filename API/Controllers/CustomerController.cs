@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Retrieves all customers.
+        /// Recupera todos los clientes.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -42,12 +42,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving all customers");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Retrieves a customer by ID.
+        /// Recupera un cliente por id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -68,12 +68,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error retrieving customer with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Creates a new customer.
+        /// Crea un nuevo cliente.
         /// </summary>
         /// <param name="customerDto"></param>
         /// <returns></returns>
@@ -95,12 +95,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating customer");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Updates an existing customer by ID.
+        /// Actualiza un cliente existente por ID.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="customerDto"></param>
@@ -123,12 +123,12 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error updating customer with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Deletes a customer by ID.
+        /// Elimina a un cliente por id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -149,7 +149,7 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error deleting customer with ID {id}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }
