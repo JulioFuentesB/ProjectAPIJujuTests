@@ -16,6 +16,8 @@ Estilo Arquitectónico
   - **Capa de Acceso a Datos**: Repositorios (CustomerRepository, PostRepository)
 
 Diagrama de Capas
+
+
 <img width="637" height="508" alt="image" src="https://github.com/user-attachments/assets/4846556f-8506-4983-aa7c-fcaf95ddc14d" />
 
 
@@ -61,10 +63,13 @@ Diagrama de Capas
 
 ## Estructura del Proyecto
 
+<img width="714" height="850" alt="image" src="https://github.com/user-attachments/assets/79cc2850-7beb-4918-86d1-3394e38d1bf2" />
+
 
 ## Diagrama de Base de Datos
 
-![Una captura de pantalla de una red social
+<img width="921" height="398" alt="image" src="https://github.com/user-attachments/assets/17d220a8-5723-4042-8760-0feded23499f" />
+
 
 
 Flujo de Operaciones Típico
