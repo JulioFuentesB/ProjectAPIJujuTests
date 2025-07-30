@@ -1,4 +1,4 @@
-# Documentación Técnica - API de Gestión de Posts y Customer
+# Documentación Técnica - API de Gestión de Posts y Customer Juju
 
 Versión 1.0 | Julio 2025
 
