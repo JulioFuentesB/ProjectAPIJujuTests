@@ -1,4 +1,4 @@
-# Documentación Técnica - API de Gestión de Posts y Clientes
+# Documentación Técnica - API de Gestión de Posts y Customer
 
 Versión 1.0 | Julio 2025
 
